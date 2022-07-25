@@ -9,38 +9,27 @@ import "./style.css"
 const Table = () => {
 
         const [products, setProducts] = useState([])
-        const [selectedSort, setSelectedSort] = useState(1)
+        const [selectedSort, setSelectedSort] = useState(false)
         const [selectedFilter, setSelectedFilter] = useState('')
         const [selectedFilterValue, setSelectedFilterValue] = useState('')
         const [searchQuery, setSearchQuery] = useState('')
+        const [sortValue, setSortValue] = useState('title')
 
         const [currentPage, setCurrentPage] = useState(1)
         const [pages, setPages] = useState([])
 
         const LIMIT = 20;
-        const sortAscByField = (field) => {
-            return (a, b) => a[field] < b[field] ? 1 : -1;
-        }
-
-        const sortDesByField = (field) => {
-            return (a, b) => a[field] > b[field] ? 1 : -1;
-        }
-
-
-        const sortProducts = (sortValue) => {
-            if (sortValue !== '') {
-                if (selectedSort === 1) {
-                    setProducts([...products].sort(sortAscByField(sortValue)))
-                    setSelectedSort(0)
-                } else if (selectedSort === 0) {
-                    setProducts([...products].sort(sortDesByField(sortValue)))
-                    setSelectedSort(1)
-                }
-            }
-        }
 
         const getProducts = async () => {
-            return await fetchProducts(currentPage, LIMIT, searchQuery, selectedFilter, selectedFilterValue)
+            return await fetchProducts(
+                currentPage,
+                LIMIT,
+                searchQuery,
+                selectedFilter,
+                selectedFilterValue,
+                sortValue,
+                selectedSort,
+            )
         }
 
         useEffect(() => {
@@ -49,7 +38,7 @@ const Table = () => {
                 setPages(response.data.pages)
                 if (response.data.pages < currentPage) setCurrentPage(1)
             })
-        }, [currentPage, searchQuery, selectedFilter, selectedFilterValue])
+        }, [currentPage, searchQuery, selectedFilter, selectedFilterValue, sortValue, selectedSort])
 
         return (
             <>
@@ -69,7 +58,10 @@ const Table = () => {
                             {value: 'amount', title: 'Количество'},
                             {value: 'distance', title: 'Расстояние'},
                         ]}
-                        sortProducts={sortProducts}
+                        selectedSort={selectedSort}
+                        setSelectedSort={setSelectedSort}
+                        sortValue={sortValue}
+                        setSortValue={setSortValue}
                     />
                     <TableBody products={products}/>
                 </table>

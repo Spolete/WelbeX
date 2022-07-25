@@ -2,7 +2,7 @@
 
 export class userController {
     async getProducts(req, res) {
-        res.json(res.paginatedResults)
+        res.json(res.results)
     }
 }
 

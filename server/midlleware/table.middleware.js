@@ -10,35 +10,36 @@ export async function filterTable(req, res, next) {
     if (selectedFilter && selectedFilterValue) {
         if (selectedFilterValue === 'equal') {
             if (selectedFilter === 'title') {
-                res.rows = model.rows.filter(product => product[selectedFilter] === searchQuery)
+                res.results = model.rows.filter(product => product[selectedFilter] === searchQuery)
                 next();
             } else {
-                res.rows = model.rows.filter(product => product[selectedFilter].toString() === searchQuery)
+                res.results = model.rows.filter(product => product[selectedFilter].toString() === searchQuery)
                 next();
             }
         }
         if (selectedFilterValue === 'contain') {
             if (selectedFilter === 'title') {
-                res.rows = model.rows.filter(product => product[selectedFilter].includes(searchQuery))
+                res.results = model.rows.filter(product => product[selectedFilter].includes(searchQuery))
                 next();
             } else {
-                res.rows = model.rows.filter(product => product[selectedFilter].toString().includes(searchQuery))
+                res.results = model.rows.filter(product => product[selectedFilter].toString().includes(searchQuery))
                 next();
             }
         }
         if (selectedFilterValue === 'more') {
-            res.rows = model.rows.filter(product => product[selectedFilter] > Number(searchQuery))
+            res.results = model.rows.filter(product => product[selectedFilter] > Number(searchQuery))
             next();
         }
         if (selectedFilterValue === 'less') {
-            res.rows = model.rows.filter(product => product[selectedFilter] < Number(searchQuery))
+            res.results = model.rows.filter(product => product[selectedFilter] < Number(searchQuery))
             next();
         }
     } else {
-        res.rows = model.rows;
+        res.results = model.rows;
         next();
     }
 }
+
 export async function paginatedResults(req, res, next) {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -48,10 +49,32 @@ export async function paginatedResults(req, res, next) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    results.totalCount = res.rows.length;
-    results.pages = Math.ceil(res.rows.length / limit);
-    results.results = res.rows.slice(startIndex, endIndex);
+    results.totalCount = res.results.length;
+    results.pages = Math.ceil(res.results.length / limit);
+    results.results = res.results.slice(startIndex, endIndex);
 
-    res.paginatedResults = results;
+    res.results = results;
     next();
+}
+
+export async function sortResults(req, res, next) {
+    const sortValue = req.query.sortValue;
+    const selectedSort = req.query.selectedSort;
+
+    const sortAscByField = (field) => {
+        return (a, b) => a[field] < b[field] ? 1 : -1;
+    }
+
+    const sortDesByField = (field) => {
+        return (a, b) => a[field] > b[field] ? 1 : -1;
+    }
+
+    if (selectedSort === 'true') {
+        res.results = res.results.sort(sortAscByField(sortValue))
+        next()
+    }
+    else if (selectedSort === 'false') {
+        res.results = res.results.sort(sortDesByField(sortValue))
+        next()
+    }
 }
