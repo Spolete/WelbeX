@@ -1,0 +1,23 @@
+.table__filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 13px;
+    align-items: center;
+    padding: 0 10px 5px;
+}
+
+.table__input {
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid rgba(26,27,34,0.15);
+}
+
+.table__input:focus {
+    outline: 0;
+    border: 1px solid black;
+}
+
+.table__selectors {
+    display: flex;
+    align-items: center;
+}

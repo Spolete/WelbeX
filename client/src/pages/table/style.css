@@ -1,0 +1,17 @@
+.table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.table__noneResults {
+    margin: 0 auto;
+    padding: 10px 0;
+    font-weight: bold;
+}

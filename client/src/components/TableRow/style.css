@@ -1,0 +1,11 @@
+.table__cell {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+}
+
+.table__row:nth-child(even) {
+    background: #F8F8F8;
+    border-right: 1px solid black;
+}

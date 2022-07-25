@@ -1,0 +1,91 @@
+.selector__box {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1a1b22;
+}
+
+.selector__options {
+    position: absolute;
+    max-height: 0;
+    width: 160px;
+    opacity: 0;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px 1px rgba(36, 36, 36, 0.07);
+    overflow: hidden;
+    order: 1;
+}
+
+.selector__options_active {
+    max-height: 100%;
+    opacity: 1;
+
+    margin-top: 50px;
+    z-index: 1001;
+    background-color: white;
+}
+
+.selector__option {
+    padding: 15px;
+    cursor: pointer;
+}
+
+.selector__option:hover {
+    background: rgb(237, 241, 248);
+}
+
+.selector__option_selected {
+    border-radius: 12px;
+    padding: 7px 50px 7px 24px;
+    cursor: pointer;
+    box-shadow: 0 1px 4px 1px rgba(36, 36, 36, 0.07);
+    position: relative;
+    order: 0;
+}
+
+.selector__option_default-selected {
+    border-radius: 12px;
+    padding: 7px 50px 7px 24px;
+    cursor: pointer;
+    box-shadow: 0 1px 4px 1px rgba(36, 36, 36, 0.07);
+    position: relative;
+    order: 0;
+}
+
+.selector__option_default-selected::after {
+    content: '';
+    background-size: contain;
+    background: url("./icons/arrow.png") no-repeat;
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    right: 10px;
+    text-align: center;
+    top: 5px;
+    transform: rotateX(180deg);
+
+    transition: all 0.4s;
+
+}
+
+.selector__options_active + .selector__option_default-selected::after {
+    transform: rotateX(0deg);
+}
+
+.selector__label {
+    cursor: pointer;
+}
+
+.selector__radio {
+    display: none;
+}
+
+.selector__background {
+    z-index: 1000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
